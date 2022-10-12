@@ -1,4 +1,8 @@
-Dockerfile
+= Docker
+
+== Dockerfile
+
+example:
 
  FROM node:17-alpine
  WORKDIR /app
@@ -7,8 +11,12 @@ Dockerfile
  EXPOSE 4000
  CMD ["node", "app.js"]
 
+`COPY . .`
+
+build command:
+
  docker build -t <image_name>:<optional_tag> <source_dir>
 
 Note:
 
--t, --tag listName and optionally a tag in the \'name:tag\' format
+-t, --tag listName and optionally a tag in the 'name:tag' format
