@@ -1,0 +1,282 @@
+= Arch Linux Installation Guide =
+
+This is a shortened version of my arch linux installation.
+
+== Pre-installation ==
+
+=== Verify signature ===
+
+ $ gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig
+
+=== Verify the boot mode ===
+
+ # ls /sys/firmware/efi/efivars
+
+=== Connect to the internet ===
+
+ $ iwctl
+ [iwd]# help
+ [iwd]# device list
+ [iwd]# station device scan
+ [iwd]# station device get-networks
+ [iwd]# station device connect SSID
+
+or, If a passphrase is required, you will be prompted to enter it. Alternatively, you can supply it as a command line argument:
+
+ $ iwctl --passphrase passphrase station device connect SSID
+
+If your network is configured such that you can connect to it by pressing a button (Wikipedia:Wi-Fi Protected Setup), check first that your network device is also capable of using this setup procedure.
+
+ [iwd]# wsc list
+ [iwd]# wsc device push-button
+
+*To exit* the interactive prompt, send *EOF* by pressing `Ctrl+d`.
+
+=== Update the system clock ===
+
+Use to ensure the system clock is accurate:
+
+ # timedatectl status
+
+=== Partition the disks ===
+
+When recognized by the live system, disks are assigned to a block device such as `/dev/sda`, `/dev/nvme0n1` or `/dev/mmcblk0`.
+
+ # fdisk -l
+
+Then `fdisk /dev/the_disk_to_be_partitioned`, for example:
+
+ # fdisk /dev/sda
+
+=== Example layouts ===
+
+.UEFI with GPT
+|===
+|Mount point |Partition |Partition type |Suggested size
+
+|`/mnt/boot`
+|`/dev/efi_system_partition`
+|Efi system partition
+|At least 300 MiB 
+
+|`[SWAP]`
+|`/dev/swap_partition`
+|Linux Swap
+|More than 512 MiB
+
+|`/mnt`
+|`/dev/root_partition`
+|Linux x86-64 root (/) 
+|Reminder of the device
+|===
+
+.BIOS with MBR
+|===
+|Mount point |Partition |Partition type |Suggested size
+
+|`[SWAP]`
+|`/dev/swap_partition`
+|Linux Swap
+|More than 512 MiB
+
+|`/mnt`
+|`/dev/root_partition`
+|Linux
+|Reminder of the device |
+|===
+
+=== Format the partitions ===
+
+ # mkfs.ext4 /dev/root_partition
+ # mkswap /dev/swap_partition
+
+If you created an EFI system partition, format it to FAT32 using `mkfs.fat`.
+
+ # mkfs.fat -F 32 /dev/efi_system_partition
+
+=== Mount the file systems ===
+
+ # mount /dev/root_partition /mnt
+
+If you created a swap volume, enable it with `swapon`:
+
+ # swapon /dev/swap_partition
+
+For UEFI systems, mount the EFI system partition:
+
+ # mount --mkdir /dev/efi_system_partition /mnt/boot
+
+`genfstab` will later detect mounted file systems and swap space.
+
+== Installation ==
+
+=== Select the mirrors ===
+
+Packages to be installed must be downloaded from *mirror servers*, which are defined in `/etc/pacman.d/mirrorlist`. On the live system, after connecting to the internet, `reflector` updates the mirror list by choosing 20 most recently synchronized HTTPS mirrors and sorting them by download rate.
+
+=== Install essential packages ===
+
+ # pacstrap /mnt base linux linux-firmware nano vim man-db man-pages texinfo networkmanager
+
+== Configure the system ==
+
+=== Fstab ===
+
+Generate an `fstab` file (use -U or -L to define by UUID or labels, respectively):
+
+ # genfstab -U /mnt >> /mnt/etc/fstab
+
+Check the resulting `/mnt/etc/fstab` file, and edit it in case of errors.
+
+=== Chroot ===
+
+Change root into the new system:
+
+ # arch-chroot /mnt
+
+=== Time zone ===
+
+Set the *time zone*:
+
+ # ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+ # hwclock --systohc
+
+=== Localization ===
+
+Edit `/etc/locale.gen` and uncomment `en_US.UTF-8` `UTF-8` and other needed *locales*, then generate the locales.
+
+ # vim /etc/locale.gen
+ # locale-gen
+
+Create the `locale.conf` file, and set the LANG variable accordingly:
+
+ # vim /etc/locale.conf
+
+*add*:
+
+ LANG=en_US.UTF-8
+
+=== Network configuration ===
+
+ # vim /etc/hostname
+
+*add*: 
+
+ myhostname
+
+*Edit* `/etc/hosts` file:
+
+ # vim /etc/hosts`
+
+ 127.0.0.1     localhost
+ ::1           localhost
+ 127.0.1.1     myhostname
+
+=== Root password ===
+
+ # passwd
+
+=== Boot loader ===
+
+Choose and install a Linux-capable boot loader. If you have an Intel or AMD CPU, enable microcode updates in addition.
+
+==== BIOS ====
+
+ # pacman -S grub
+ # grub-install --target=i386-pc /dev/sdX
+ # pacman -S intel-ucode
+ # grub-mkconfig -o /boot/grub/grub.cfg
+
+==== UEFI ====
+
+ # pacman -S grub efibootmgr
+ # grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB
+ # pacman -S intel-ucode
+ # grub-mkconfig -o /boot/grub/grub.cfg
+
+substitute `*esp*` with its mount point(`*/boot*`).
+
+== Reboot ==
+
+Exit the chroot environment by typing `exit` or pressing `Ctrl+d`.
+
+Optionally manually unmount all the partitions with `umount -R /mnt`: this allows noticing any "busy" partitions, and finding the cause with `fuser`.
+
+Finally, restart the machine by typing `reboot`: any partitions still mounted will be automatically unmounted by systemd. Remember to remove the installation medium and then login into the new system with the root account.
+
+== Post-installation ==
+
+=== Adding user ===
+
+ # useradd -m username
+ # passwd username
+
+Adding `-m/--create-home` to create home directory for user.
+
+
+=== Connect to internet ===
+
+Start & enable installed `networkmanager`.
+
+ # systemctl enable NetworkManager --now
+
+Connect to the internet with `nmcli` or `nmtui` command.
+
+=== etc ===
+
+ # pacman -Syu
+ # pacman -S base-devel bash-completion git sudo xdg-user-dirs reflector
+ # EDITOR=nano visudo
+
+Additionaly you can install `firewalld` as firewall service.
+
+ # pacman -S firewalld
+ # systemctl enable firewalld --now
+
+`reboot` and login with new user, then generate home directories: $ `xdg-user-dirs-update`.
+
+== List applications ==
+
+Display server: `xorg` or just `xorg-server`
+
+Along w/ display server: `xf86-video-intel` +*+*not recommended*
+
+Intel: `mesa` `lib32-mesa`
+
+Along w/ window manager: `xorg-xinit`
+
+Text editor: `vim` `gvim` `neovim`
+
+Application launcher: `dmenu`
+
+Terminal emulator: `st` `rxvt-unicode` `termite`
+
+Web browser: `firefox` `chromium` `midori`
+
+Audio packages: `alsa-utils` `pulseaudio` `pulseaudio-alsa`
+
+Office: `libreoffice-still`
+
+Others: `gimp` `inkscape`
+
+File manager: `nnn` `thunar` `vifm` `ranger`
+
+Pdf viewer: `zathura` `zathura-pdf-mupdf` `zathura-ps`
+
+Markdown editor: `ghostwriter`
+
+Image processing: `feh` `scrot` `picom`
+
+Archive and compress: `zip` `unzip`
+
+Utils: `udisks2` `pass` `xclip` `nodejs` `npm` `pandoc` `neofetch` `htop` `dmidecode` `wget` `ntfs-3g`
+
+Fonts: `noto-fonts-emoji` `ttf-font-awesome` `adobe-source-code-pro-fonts` `otf-ipafont` `ttf-baekmuk`
+
+Video player: `mpv` `vlc`
+
+Music player: `cmus`
+
+RSS: `newsboat`
+
+Sreenrecorder: `simplescreenrecorder` `screekey`
