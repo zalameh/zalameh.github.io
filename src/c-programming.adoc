@@ -1,4 +1,7 @@
- // Create variables
+= C Programming
+
+== Create variables
+
  int myNum = 5;             // Integer (whole number)
  float myFloatNum = 5.99;   // Floating point number
  char myLetter = 'D';       // Character
@@ -11,3 +14,56 @@
  int myNum = 5;
  char myLetter = 'D';
  printf("My number is %d and my letter is %c", myNum, myLetter); 
+
+== Data types
+
+=== Basic data types
+
+|===
+|Data type |Size |Description
+
+|`int`
+|2 or 4 bytes
+|Stores whole numbers, *without decimals*
+
+|`float`
+|4 bytes
+|Stores fractional numbers, containing one or more decimals. Sufficient for storing *7 decimal* digits
+
+|`double`
+|8 bytes
+|Stores fractional numbers, containing one or more decimals. Sufficient for storing *15 decimal* digits
+
+|`char`
+|1 byte
+|Stores *a single* character/letter/number, or ASCII values
+|===
+
+=== Basic format specifiers
+
+|===
+|Format Specifier |Data Type
+
+|`%d` or `%i`
+|`int`
+
+|`%f`
+|`float`
+
+|`lf`
+|`double`
+
+|`c`
+|`char`
+
+|`s`
+|Used for *strings* (text)
+|===
+
+'''
+
+A `#define` line defines a symbolic name or symbolic constant to be a particular string of characters:
+
+ #define name replacement_text
+
+Thereafter, any occurrence of name (not in quotes and not part of another name) will be replaced by the corresponding replacement text. The name has the same form as a variable name: a sequence of letters and digits that begins with a letter. The replacement text can be any sequence of characters; it is not limited to numbers.

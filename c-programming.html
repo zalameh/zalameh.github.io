@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<title>Untitled</title>
+<title>C Programming</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -446,12 +446,15 @@ h1, h2, h3 {
 </head>
 <body class="article">
 <div id="header">
+<h1>C Programming</h1>
 </div>
 <div id="content">
+<div class="sect1">
+<h2 id="_create_variables">Create variables</h2>
+<div class="sectionbody">
 <div class="literalblock">
 <div class="content">
-<pre>// Create variables
-int myNum = 5;             // Integer (whole number)
+<pre>int myNum = 5;             // Integer (whole number)
 float myFloatNum = 5.99;   // Floating point number
 char myLetter = 'D';       // Character</pre>
 </div>
@@ -472,9 +475,104 @@ printf("My number is %d and my letter is %c", myNum, myLetter);</pre>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_data_types">Data types</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_basic_data_types">Basic data types</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Data type</th>
+<th class="tableblock halign-left valign-top">Size</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 or 4 bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stores whole numbers, <strong>without decimals</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>float</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4 bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stores fractional numbers, containing one or more decimals. Sufficient for storing <strong>7 decimal</strong> digits</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>double</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stores fractional numbers, containing one or more decimals. Sufficient for storing <strong>15 decimal</strong> digits</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>char</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 byte</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stores <strong>a single</strong> character/letter/number, or ASCII values</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_basic_format_specifiers">Basic format specifiers</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Format Specifier</th>
+<th class="tableblock halign-left valign-top">Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%d</code> or <code>%i</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%f</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>float</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lf</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>double</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>c</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>char</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>s</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Used for <strong>strings</strong> (text)</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div class="paragraph">
+<p>A <code>#define</code> line defines a symbolic name or symbolic constant to be a particular string of characters:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>#define name replacement_text</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Thereafter, any occurrence of name (not in quotes and not part of another name) will be replaced by the corresponding replacement text. The name has the same form as a variable name: a sequence of letters and digits that begins with a letter. The replacement text can be any sequence of characters; it is not limited to numbers.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-12 16:44:53 +0700
+Last updated 2022-10-13 16:36:52 +0700
 </div>
 </div>
 </body>
