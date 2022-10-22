@@ -1,8 +1,25 @@
 = Docker
 
+== ETC
+
+
+
+A Docker image can only have a single CMD. If you have multiple CMD declarations in your Dockerfile, only the last one will matter. If you want to run multiple commands, you can combine them into a single CMD, like this:
+
+ CMD echo HELLO WORLD; echo GOODBYE WORLD
+
+Or you can put them into a script file and then have your CMD run the script:
+
+ COPY myscript.sh /myscript.sh
+ CMD sh /myscript.sh
+
+https://stackoverflow.com/questions/64911830/docker-run-only-displays-last-cmd
+
 == Dockerfile
 
-example:
+Any *image_name* or *container_name* can be replaced with id.
+
+dockerfile
 
  FROM node:17-alpine
  WORKDIR /app
@@ -11,12 +28,106 @@ example:
  EXPOSE 4000
  CMD ["node", "app.js"]
 
-`COPY . .`
+== Docker build
 
-build command:
+Example:
 
- docker build -t <image_name>:<optional_tag> <source_dir>
+ $ docker build -t <image_name>:<optional_tag> <source_dir>
+ $ docker build -t alpine:aji /home/wiji/Documents/thesource
 
-Note:
+`-t`, `--tag`, listName and optionally a tag in the 'name:tag' format +
+`--rm`, Remove intermediate containers after a successful build (default true)
 
--t, --tag listName and optionally a tag in the 'name:tag' format
+== Docker image
+
+Command:
+
+ $ docker image COMMAND
+
+Example:
+
+ $ docker image ls
+
+`ls`, List images +
+`prune`, Remove unused images
+
+== Docker run
+
+Command:
+
+ $ docker run -d --name -p <localhost_port>:<container_port> <container_name> <image_name>
+ $ docker run -d --name -p <localhost_port>:<container_port> -v <absolute_path_to_src>:<container_path> <container_name> <image_name>
+
+Example:
+ 
+ $ docker run --name alpine_c alpine
+ $ docker run --name alpine_c -p 4000:4000 alpine
+ $ docker run -dt --name alpine_c alpine
+
+`-i`, `--interactive`, Keep STDIN open even if not attached +
+`-d`, `--detach`, Run container in background and print container ID +
+`-t`, `--tty`, Allocate a pseudo-TTY +
+`-p`, `--publish list`, Publish a container's port(s) to the host +
+`--rm`, Automatically remove the container when it exits +
+`-v`, `--volume list`, Bind mount a volume
+
+Example with volume:
+
+ $ docker run -d --name -p 4000:4000 -v /home/wiji/Documents/test/api:/app -v /app/node_modules test_container test_image
+
+== Docker exec
+
+ $ docker exec -it <container_name> <command>
+ $ docker exec -it alpine sh
+
+`-i`, `--interactive`, Keep STDIN open even if not attached +
+`-t`, `--tty`, Allocate a pseudo-TTY
+
+Run `exit` inside running/executed container to exit interactive shell.
+
+ # exit
+
+== Docker ps
+
+Example to list all containers(running and stopped):
+
+ $ docker ps -a
+
+`-a`, `--all`, Show all containers (default shows just running) +
+`-q`, `--quiet`, Only display container IDs
+
+== Docker stop
+
+ $ docker stop <container_name>
+
+== Docker start
+
+ $ docker start <container_name>
+
+`-i`, `--interactive`, Attach container's STDIN
+
+== Remove container
+
+ $ docker rm <container_name>
+
+`-f`, `--force`, Force removal of the image
+
+== Remove image
+
+ $ docker rmi <image_name>
+
+`-f`, `--force`, Force removal of the image +
+`--no-prune`, Do not delete untagged parents
+
+== Docker prune
+
+Remove all unused containers, networks, images (both dangling and unreferenced), and optionally, volumes.
+
+Example:
+
+ $ docker system prune -a
+
+`--all` , `-a`, Remove all unused images not just dangling ones +
+`--force` , `-f`, Do not prompt for confirmation +
+`--volumes`, Prune volumes +
+`--filter`, Provide filter values (e.g. 'label=<key>=<value>')

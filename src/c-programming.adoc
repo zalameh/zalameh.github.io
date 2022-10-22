@@ -50,13 +50,13 @@
 |`%f`
 |`float`
 
-|`lf`
+|`%lf`
 |`double`
 
-|`c`
+|`%c`
 |`char`
 
-|`s`
+|`%s`
 |Used for *strings* (text)
 |===
 
