@@ -1,0 +1,14 @@
+= Docker compose
+
+== Up
+
+Build an image and run a container at a time.
+
+ $ docker-compose up
+
+== Down
+
+ $ docker-compose down --rmi all -v
+
+`--rmi`, Remove images used by services. "local" remove only images that don't have a custom tag ("local"|"all") +
+`--volumes`, `-v`, Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers.

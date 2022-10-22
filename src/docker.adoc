@@ -2,8 +2,6 @@
 
 == ETC
 
-
-
 A Docker image can only have a single CMD. If you have multiple CMD declarations in your Dockerfile, only the last one will matter. If you want to run multiple commands, you can combine them into a single CMD, like this:
 
  CMD echo HELLO WORLD; echo GOODBYE WORLD

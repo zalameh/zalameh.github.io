@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<title>Docker</title>
+<title>Docker compose</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -446,254 +446,40 @@ h1, h2, h3 {
 </head>
 <body class="article">
 <div id="header">
-<h1>Docker</h1>
+<h1>Docker compose</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_etc">ETC</h2>
+<h2 id="_up">Up</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A Docker image can only have a single CMD. If you have multiple CMD declarations in your Dockerfile, only the last one will matter. If you want to run multiple commands, you can combine them into a single CMD, like this:</p>
+<p>Build an image and run a container at a time.</p>
 </div>
 <div class="literalblock">
 <div class="content">
-<pre>CMD echo HELLO WORLD; echo GOODBYE WORLD</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Or you can put them into a script file and then have your CMD run the script:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>COPY myscript.sh /myscript.sh
-CMD sh /myscript.sh</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><a href="https://stackoverflow.com/questions/64911830/docker-run-only-displays-last-cmd" class="bare">https://stackoverflow.com/questions/64911830/docker-run-only-displays-last-cmd</a></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_dockerfile">Dockerfile</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Any <strong>image_name</strong> or <strong>container_name</strong> can be replaced with id.</p>
-</div>
-<div class="paragraph">
-<p>dockerfile</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>FROM node:17-alpine
-WORKDIR /app
-COPY . .
-RUN npm install
-EXPOSE 4000
-CMD ["node", "app.js"]</pre>
+<pre>$ docker-compose up</pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_docker_build">Docker build</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Example:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ docker build -t &lt;image_name&gt;:&lt;optional_tag&gt; &lt;source_dir&gt;
-$ docker build -t alpine:aji /home/wiji/Documents/thesource</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>-t</code>, <code>--tag</code>, listName and optionally a tag in the 'name:tag' format<br>
-<code>--rm</code>, Remove intermediate containers after a successful build (default true)</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_docker_image">Docker image</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Command:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ docker image COMMAND</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Example:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ docker image ls</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>ls</code>, List images<br>
-<code>prune</code>, Remove unused images</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_docker_run">Docker run</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Command:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ docker run -d --name -p &lt;localhost_port&gt;:&lt;container_port&gt; &lt;container_name&gt; &lt;image_name&gt;
-$ docker run -d --name -p &lt;localhost_port&gt;:&lt;container_port&gt; -v &lt;absolute_path_to_src&gt;:&lt;container_path&gt; &lt;container_name&gt; &lt;image_name&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Example:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ docker run --name alpine_c alpine
-$ docker run --name alpine_c -p 4000:4000 alpine
-$ docker run -dt --name alpine_c alpine</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>-i</code>, <code>--interactive</code>, Keep STDIN open even if not attached<br>
-<code>-d</code>, <code>--detach</code>, Run container in background and print container ID<br>
-<code>-t</code>, <code>--tty</code>, Allocate a pseudo-TTY<br>
-<code>-p</code>, <code>--publish list</code>, Publish a container&#8217;s port(s) to the host<br>
-<code>--rm</code>, Automatically remove the container when it exits<br>
-<code>-v</code>, <code>--volume list</code>, Bind mount a volume</p>
-</div>
-<div class="paragraph">
-<p>Example with volume:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ docker run -d --name -p 4000:4000 -v /home/wiji/Documents/test/api:/app -v /app/node_modules test_container test_image</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_docker_exec">Docker exec</h2>
+<h2 id="_down">Down</h2>
 <div class="sectionbody">
 <div class="literalblock">
 <div class="content">
-<pre>$ docker exec -it &lt;container_name&gt; &lt;command&gt;
-$ docker exec -it alpine sh</pre>
+<pre>$ docker-compose down --rmi all -v</pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>-i</code>, <code>--interactive</code>, Keep STDIN open even if not attached<br>
-<code>-t</code>, <code>--tty</code>, Allocate a pseudo-TTY</p>
-</div>
-<div class="paragraph">
-<p>Run <code>exit</code> inside running/executed container to exit interactive shell.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># exit</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_docker_ps">Docker ps</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Example to list all containers(running and stopped):</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ docker ps -a</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>-a</code>, <code>--all</code>, Show all containers (default shows just running)<br>
-<code>-q</code>, <code>--quiet</code>, Only display container IDs</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_docker_stop">Docker stop</h2>
-<div class="sectionbody">
-<div class="literalblock">
-<div class="content">
-<pre>$ docker stop &lt;container_name&gt;</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_docker_start">Docker start</h2>
-<div class="sectionbody">
-<div class="literalblock">
-<div class="content">
-<pre>$ docker start &lt;container_name&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>-i</code>, <code>--interactive</code>, Attach container&#8217;s STDIN</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_remove_container">Remove container</h2>
-<div class="sectionbody">
-<div class="literalblock">
-<div class="content">
-<pre>$ docker rm &lt;container_name&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>-f</code>, <code>--force</code>, Force removal of the image</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_remove_image">Remove image</h2>
-<div class="sectionbody">
-<div class="literalblock">
-<div class="content">
-<pre>$ docker rmi &lt;image_name&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>-f</code>, <code>--force</code>, Force removal of the image<br>
-<code>--no-prune</code>, Do not delete untagged parents</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_docker_prune">Docker prune</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Remove all unused containers, networks, images (both dangling and unreferenced), and optionally, volumes.</p>
-</div>
-<div class="paragraph">
-<p>Example:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ docker system prune -a</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>--all</code> , <code>-a</code>, Remove all unused images not just dangling ones<br>
-<code>--force</code> , <code>-f</code>, Do not prompt for confirmation<br>
-<code>--volumes</code>, Prune volumes<br>
-<code>--filter</code>, Provide filter values (e.g. 'label=&lt;key&gt;=&lt;value&gt;')</p>
+<p><code>--rmi</code>, Remove images used by services. "local" remove only images that don&#8217;t have a custom tag ("local"|"all")<br>
+<code>--volumes</code>, <code>-v</code>, Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-22 20:33:26 +0700
+Last updated 2022-10-22 20:38:00 +0700
 </div>
 </div>
 </body>
