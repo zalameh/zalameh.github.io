@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<title>Reset Auto-Increment IDs in Postgres</title>
+<title>PostgreSQL Cheatsheet</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -446,10 +446,14 @@ h1, h2, h3 {
 </head>
 <body class="article">
 <div id="header">
+<h1>PostgreSQL Cheatsheet</h1>
 </div>
 <div id="content">
+<div class="sect1">
+<h2 id="_common">Common</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_reset_auto_increment_ids_in_postgres">Reset Auto-Increment IDs in Postgres</h3>
+<h3 id="_reset_auto_increment_ids_in_postgres">Reset auto-increment ids in postgres</h3>
 <div class="literalblock">
 <div class="content">
 <pre>ALTER SEQUENCE &lt;table name&gt;_&lt;column name&gt;_seq RESTART WITH &lt;reset id&gt;;</pre>
@@ -458,6 +462,67 @@ h1, h2, h3 {
 <div class="literalblock">
 <div class="content">
 <pre>ALTER SEQUENCE product_id_seq RESTART WITH 1;</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_alter_password">Alter password</h3>
+<div class="literalblock">
+<div class="content">
+<pre>ALTER USER name [ [ WITH ] option [ ... ] ]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where option can be:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>CREATEDB | NOCREATEDB
+| CREATEUSER | NOCREATEUSER
+| [ ENCRYPTED | UNENCRYPTED ] PASSWORD 'password'
+| VALID UNTIL 'abstime'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>ALTER USER thename WITH ENCRYPTED PASSWORD 'thepassword';</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_user">Create user</h3>
+<div class="literalblock">
+<div class="content">
+<pre>CREATE USER name [ [ WITH ] option [ ... ] ]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where option can be:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SYSID uid
+| CREATEDB | NOCREATEDB
+| CREATEUSER | NOCREATEUSER
+| IN GROUP groupname [, ...]
+| [ ENCRYPTED | UNENCRYPTED ] PASSWORD 'password'
+| VALID UNTIL 'abstime'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>CREATE USER miriam WITH PASSWORD 'jw8s0F4' VALID UNTIL '2005-01-01' CREATEDB;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create user miriam with password &#8230;&#8203; valid until &#8230;&#8203; and can create database.</p>
+</div>
 </div>
 </div>
 </div>
@@ -501,10 +566,59 @@ $ pg_dump -U postgres dvdrental &gt; /tmp/dvdrental-backup.sql</pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_docker">Docker</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Download an image from docker hub:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://hub.docker.com/" class="bare">https://hub.docker.com/</a></p>
+</div>
+<div class="paragraph">
+<p>For this example we&#8217;re using <code>postgres:15.0-alpine3.16</code> image.</p>
+</div>
+<div class="paragraph">
+<p>Run example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>docker run \
+  --name mypostgres \
+  -p 5432:5432 \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=ip_addresses \
+  -v /data:/home/wiji/Documents/mypostgres \
+  -d \
+  postgres:15.0-alpine3.16</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Open postgres shell:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>docker exec -it mypostgres
+docker exec -it mypostgres psql -U postgres -W ip_addresses</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gorm">gorm</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre>dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-22 19:57:21 +0700
+Last updated 2022-10-23 20:42:12 +0700
 </div>
 </div>
 </body>

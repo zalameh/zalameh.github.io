@@ -1,8 +1,46 @@
-=== Reset Auto-Increment IDs in Postgres
+= PostgreSQL Cheatsheet
+
+== Common
+
+=== Reset auto-increment ids in postgres
 
  ALTER SEQUENCE <table name>_<column name>_seq RESTART WITH <reset id>;
 
  ALTER SEQUENCE product_id_seq RESTART WITH 1;
+
+=== Alter password
+
+ ALTER USER name [ [ WITH ] option [ ... ] ]
+ 
+where option can be:
+ 
+ CREATEDB | NOCREATEDB
+ | CREATEUSER | NOCREATEUSER 
+ | [ ENCRYPTED | UNENCRYPTED ] PASSWORD 'password' 
+ | VALID UNTIL 'abstime'
+
+Example:
+
+ ALTER USER thename WITH ENCRYPTED PASSWORD 'thepassword';
+
+=== Create user
+
+ CREATE USER name [ [ WITH ] option [ ... ] ]
+
+where option can be:
+    
+ SYSID uid 
+ | CREATEDB | NOCREATEDB
+ | CREATEUSER | NOCREATEUSER
+ | IN GROUP groupname [, ...]
+ | [ ENCRYPTED | UNENCRYPTED ] PASSWORD 'password'
+ | VALID UNTIL 'abstime'
+
+Example:
+
+ CREATE USER miriam WITH PASSWORD 'jw8s0F4' VALID UNTIL '2005-01-01' CREATEDB;
+
+Create user miriam with password ... valid until ... and can create database.
 
 == Backup
 
@@ -22,3 +60,32 @@ Example:
 * p, Output a plain-text SQL script file (default)
 * t, Output a tar archive suitable for input into pg_restore. Using this archive format allows reordering and/or exclusion of schema elements at the time the database is restored. It is also possible to limit which data is reloaded at restore time.
 * c, Output a custom archive suitable for input into pg_restore. This is the most flexible format in that it allows reordering of data load as well as schema elements. This format is also compressed by default.
+
+== Docker
+
+Download an image from docker hub:
+
+https://hub.docker.com/
+
+For this example we're using `postgres:15.0-alpine3.16` image.
+
+Run example:
+
+ docker run \
+   --name mypostgres \
+   -p 5432:5432 \
+   -e POSTGRES_USER=postgres \
+   -e POSTGRES_PASSWORD=postgres \
+   -e POSTGRES_DB=ip_addresses \
+   -v /data:/home/wiji/Documents/mypostgres \
+   -d \
+   postgres:15.0-alpine3.16
+
+Open postgres shell:
+
+ docker exec -it mypostgres 
+ docker exec -it mypostgres psql -U postgres -W ip_addresses
+
+== gorm
+
+ dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"

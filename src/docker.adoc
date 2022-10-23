@@ -67,6 +67,7 @@ Example:
 `-t`, `--tty`, Allocate a pseudo-TTY +
 `-p`, `--publish list`, Publish a container's port(s) to the host +
 `--rm`, Automatically remove the container when it exits +
+`-e`, `--env list`, Set environment variables +
 `-v`, `--volume list`, Bind mount a volume
 
 Example with volume:
