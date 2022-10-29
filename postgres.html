@@ -553,7 +553,32 @@ $ pg_dump -U postgres dvdrental &gt; /tmp/dvdrental-backup.sql</pre>
 <div class="ulist">
 <ul>
 <li>
-<p>p, Output a plain-text SQL script file (default)</p>
+<p>p, Output a plain-text SQL script file (default).</p>
+</li>
+<li>
+<p>t, Output a tar archive suitable for input into pg_restore. Using this archive format allows reordering and/or exclusion of schema elements at the time the database is restored. It is also possible to limit which data is reloaded at restore time.</p>
+</li>
+<li>
+<p>c, Output a custom archive suitable for input into pg_restore. This is the most flexible format in that it allows reordering of data load as well as schema elements. This format is also compressed by default.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_import">Import</h3>
+<div class="literalblock">
+<div class="content">
+<pre>$ psql -U postgres -d fgorm &lt; /tmp/test.sql</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>-U</code>, username, Connect as the given user<br>
+<code>-F</code>, format, Selects the format of the output. format can be one of the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>p, Output a plain-text SQL script file (default).</p>
 </li>
 <li>
 <p>t, Output a tar archive suitable for input into pg_restore. Using this archive format allows reordering and/or exclusion of schema elements at the time the database is restored. It is also possible to limit which data is reloaded at restore time.</p>
@@ -618,7 +643,7 @@ docker exec -it mypostgres psql -U postgres -W ip_addresses</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-23 20:42:12 +0700
+Last updated 2022-10-25 14:38:05 +0700
 </div>
 </div>
 </body>

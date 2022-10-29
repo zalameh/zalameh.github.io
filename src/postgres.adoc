@@ -57,7 +57,18 @@ Example:
 `-W`, Force a password prompt. This should happen automatically if the server requires password authentication. +
 `-F`, format, Selects the format of the output. format can be one of the following:
 
-* p, Output a plain-text SQL script file (default)
+* p, Output a plain-text SQL script file (default).
+* t, Output a tar archive suitable for input into pg_restore. Using this archive format allows reordering and/or exclusion of schema elements at the time the database is restored. It is also possible to limit which data is reloaded at restore time.
+* c, Output a custom archive suitable for input into pg_restore. This is the most flexible format in that it allows reordering of data load as well as schema elements. This format is also compressed by default.
+
+=== Import
+
+ $ psql -U postgres -d fgorm < /tmp/test.sql
+
+`-U`, username, Connect as the given user +
+`-F`, format, Selects the format of the output. format can be one of the following:
+
+* p, Output a plain-text SQL script file (default).
 * t, Output a tar archive suitable for input into pg_restore. Using this archive format allows reordering and/or exclusion of schema elements at the time the database is restored. It is also possible to limit which data is reloaded at restore time.
 * c, Output a custom archive suitable for input into pg_restore. This is the most flexible format in that it allows reordering of data load as well as schema elements. This format is also compressed by default.
 

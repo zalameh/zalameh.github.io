@@ -486,11 +486,13 @@ CMD sh /myscript.sh</pre>
 <div class="literalblock">
 <div class="content">
 <pre>FROM node:17-alpine
+RUN npm install -g nodemon
 WORKDIR /app
-COPY . .
+COPY package.json .
 RUN npm install
+COPY . .
 EXPOSE 4000
-CMD ["node", "app.js"]</pre>
+CMD ["npm", "run", "dev"]</pre>
 </div>
 </div>
 </div>
@@ -694,7 +696,7 @@ $ docker exec -it alpine sh</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-23 10:41:59 +0700
+Last updated 2022-10-29 09:59:04 +0700
 </div>
 </div>
 </body>
