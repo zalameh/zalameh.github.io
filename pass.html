@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Arch Linux Installation Guide</title>
+<title>PASS</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -446,516 +446,50 @@ h1, h2, h3 {
 </head>
 <body class="article">
 <div id="header">
-<h1>Arch Linux Installation Guide</h1>
+<h1>PASS</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>This is a shortened version of my arch linux installation.</p>
-</div>
-</div>
-</div>
 <div class="sect1">
-<h2 id="_pre_installation">Pre-installation</h2>
+<h2 id="_encrypt">Encrypt</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_verify_signature">Verify signature</h3>
 <div class="literalblock">
 <div class="content">
-<pre>$ gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_verify_the_boot_mode">Verify the boot mode</h3>
-<div class="literalblock">
-<div class="content">
-<pre># ls /sys/firmware/efi/efivars</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_connect_to_the_internet">Connect to the internet</h3>
-<div class="literalblock">
-<div class="content">
-<pre>$ iwctl
-[iwd]# help
-[iwd]# device list
-[iwd]# station device scan
-[iwd]# station device get-networks
-[iwd]# station device connect SSID</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or, If a passphrase is required, you will be prompted to enter it. Alternatively, you can supply it as a command line argument:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ iwctl --passphrase passphrase station device connect SSID</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If your network is configured such that you can connect to it by pressing a button (Wikipedia:Wi-Fi Protected Setup), check first that your network device is also capable of using this setup procedure.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>[iwd]# wsc list
-[iwd]# wsc device push-button</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>To exit</strong> the interactive prompt, send <strong>EOF</strong> by pressing <code>Ctrl+d</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_update_the_system_clock">Update the system clock</h3>
-<div class="paragraph">
-<p>Use to ensure the system clock is accurate:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># timedatectl status</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_partition_the_disks">Partition the disks</h3>
-<div class="paragraph">
-<p>When recognized by the live system, disks are assigned to a block device such as <code>/dev/sda</code>, <code>/dev/nvme0n1</code> or <code>/dev/mmcblk0</code>.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># fdisk -l</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then <code>fdisk /dev/the_disk_to_be_partitioned</code>, for example:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># fdisk /dev/sda</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_example_layouts">Example layouts</h3>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. UEFI with GPT</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Mount point</th>
-<th class="tableblock halign-left valign-top">Partition</th>
-<th class="tableblock halign-left valign-top">Partition type</th>
-<th class="tableblock halign-left valign-top">Suggested size</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/mnt/boot</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/dev/efi_system_partition</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Efi system partition</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">At least 300 MiB</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[SWAP]</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/dev/swap_partition</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Linux Swap</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">More than 512 MiB</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/mnt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/dev/root_partition</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Linux x86-64 root (/)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Reminder of the device</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. BIOS with MBR</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Mount point</th>
-<th class="tableblock halign-left valign-top">Partition</th>
-<th class="tableblock halign-left valign-top">Partition type</th>
-<th class="tableblock halign-left valign-top">Suggested size</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[SWAP]</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/dev/swap_partition</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Linux Swap</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">More than 512 MiB</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/mnt</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/dev/root_partition</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Linux</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Reminder of the device</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_format_the_partitions">Format the partitions</h3>
-<div class="literalblock">
-<div class="content">
-<pre># mkfs.ext4 /dev/root_partition
-# mkswap /dev/swap_partition</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you created an EFI system partition, format it to FAT32 using <code>mkfs.fat</code>.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># mkfs.fat -F 32 /dev/efi_system_partition</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_mount_the_file_systems">Mount the file systems</h3>
-<div class="literalblock">
-<div class="content">
-<pre># mount /dev/root_partition /mnt</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you created a swap volume, enable it with <code>swapon</code>:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># swapon /dev/swap_partition</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For UEFI systems, mount the EFI system partition:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># mount --mkdir /dev/efi_system_partition /mnt/boot</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>genfstab</code> will later detect mounted file systems and swap space.</p>
+<pre>$ gpg --full-generate-key
+$ gpg --list-secret-keys --keyid-format=LONG
+$ pass init &lt;gpg_key or email&gt;
+$ pass generate [-n] &lt;pass_name&gt; [length]</pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_installation">Installation</h2>
+<h2 id="_export_import">Export &amp; Import</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_select_the_mirrors">Select the mirrors</h3>
-<div class="paragraph">
-<p>Packages to be installed must be downloaded from <strong>mirror servers</strong>, which are defined in <code>/etc/pacman.d/mirrorlist</code>. On the live system, after connecting to the internet, <code>reflector</code> updates the mirror list by choosing 20 most recently synchronized HTTPS mirrors and sorting them by download rate.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_install_essential_packages">Install essential packages</h3>
 <div class="literalblock">
 <div class="content">
-<pre># pacstrap /mnt base linux linux-firmware nano vim man-db man-pages texinfo networkmanager</pre>
-</div>
+<pre>$ gpg --export-secret-keys &gt; &lt;given_file_name&gt;.gpg
+$ gpg --import &lt;gpgfile&gt;.gpg</pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configure_the_system">Configure the system</h2>
+<h2 id="_re_encrypt">Re-Encrypt</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_fstab">Fstab</h3>
-<div class="paragraph">
-<p>Generate an <code>fstab</code> file (use -U or -L to define by UUID or labels, respectively):</p>
-</div>
 <div class="literalblock">
 <div class="content">
-<pre># genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</pre>
+<pre>$ gpg --full-generate-key
+$ gpg --list-secret-keys --keyid-format=LONG
+$ pass init &lt;new_gpg_key&gt;
+$ gpg --delete-secret-and-public-keys &lt;old_gpg_key&gt;</pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Check the resulting <code>/mnt/etc/fstab</code> file, and edit it in case of errors.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_chroot">Chroot</h3>
-<div class="paragraph">
-<p>Change root into the new system:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># arch-chroot /mnt</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_time_zone">Time zone</h3>
-<div class="paragraph">
-<p>Set the <strong>time zone</strong>:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
-# hwclock --systohc</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_localization">Localization</h3>
-<div class="paragraph">
-<p>Edit <code>/etc/locale.gen</code> and uncomment <code>en_US.UTF-8</code> <code>UTF-8</code> and other needed <strong>locales</strong>, then generate the locales.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># vim /etc/locale.gen
-# locale-gen</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Create the <code>locale.conf</code> file, and set the LANG variable accordingly:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># vim /etc/locale.conf</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>add</strong>:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>LANG=en_US.UTF-8</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_network_configuration">Network configuration</h3>
-<div class="literalblock">
-<div class="content">
-<pre># vim /etc/hostname</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>add</strong>:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>myhostname</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Edit</strong> <code>/etc/hosts</code> file:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># vim /etc/hosts`</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>127.0.0.1     localhost
-::1           localhost
-127.0.1.1     myhostname</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_root_password">Root password</h3>
-<div class="literalblock">
-<div class="content">
-<pre># passwd</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_boot_loader">Boot loader</h3>
-<div class="paragraph">
-<p>Choose and install a Linux-capable boot loader. If you have an Intel or AMD CPU, enable microcode updates in addition.</p>
-</div>
-<div class="sect3">
-<h4 id="_bios">BIOS</h4>
-<div class="literalblock">
-<div class="content">
-<pre># pacman -S grub
-# grub-install --target=i386-pc /dev/sdX
-# pacman -S intel-ucode
-# grub-mkconfig -o /boot/grub/grub.cfg</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_uefi">UEFI</h4>
-<div class="literalblock">
-<div class="content">
-<pre># pacman -S grub efibootmgr
-# grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB
-# pacman -S intel-ucode
-# grub-mkconfig -o /boot/grub/grub.cfg</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>substitute <code><strong>esp</strong></code> with its mount point(<code><strong>/boot</strong></code>).</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_reboot">Reboot</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Exit the chroot environment by typing <code>exit</code> or pressing <code>Ctrl+d</code>.</p>
-</div>
-<div class="paragraph">
-<p>Optionally manually unmount all the partitions with <code>umount -R /mnt</code>: this allows noticing any "busy" partitions, and finding the cause with <code>fuser</code>.</p>
-</div>
-<div class="paragraph">
-<p>Finally, restart the machine by typing <code>reboot</code>: any partitions still mounted will be automatically unmounted by systemd. Remember to remove the installation medium and then login into the new system with the root account.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_post_installation">Post-installation</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_adding_user">Adding user</h3>
-<div class="literalblock">
-<div class="content">
-<pre># useradd -m username
-# passwd username</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Adding <code>-m/--create-home</code> to create home directory for user.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_connect_to_internet">Connect to internet</h3>
-<div class="paragraph">
-<p>Start &amp; enable installed <code>networkmanager</code>.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># systemctl enable NetworkManager --now</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Connect to the internet with <code>nmcli</code> or <code>nmtui</code> command.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_etc">etc</h3>
-<div class="literalblock">
-<div class="content">
-<pre># pacman -Syu
-# pacman -S base-devel bash-completion git sudo xdg-user-dirs reflector
-# EDITOR=nano visudo</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Additionaly you can install <code>firewalld</code> as firewall service.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre># pacman -S firewalld
-# systemctl enable firewalld --now</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>reboot</code> and login with new user, then generate home directories: $ <code>xdg-user-dirs-update</code>.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_list_applications">List applications</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Display server: <code>xorg</code> or just <code>xorg-server</code></p>
-</div>
-<div class="paragraph">
-<p>Along w/ display server: <code>xf86-video-intel</code> *<strong>not recommended</strong></p>
-</div>
-<div class="paragraph">
-<p>Intel: <code>mesa</code> <code>lib32-mesa</code></p>
-</div>
-<div class="paragraph">
-<p>Along w/ window manager: <code>xorg-xinit</code></p>
-</div>
-<div class="paragraph">
-<p>Text editor: <code>vim</code> <code>gvim</code> <code>neovim</code></p>
-</div>
-<div class="paragraph">
-<p>Application launcher: <code>dmenu</code></p>
-</div>
-<div class="paragraph">
-<p>Terminal emulator: <code>st</code> <code>rxvt-unicode</code> <code>termite</code></p>
-</div>
-<div class="paragraph">
-<p>Web browser: <code>firefox</code> <code>chromium</code> <code>midori</code></p>
-</div>
-<div class="paragraph">
-<p>Audio packages: <code>alsa-utils</code> <code>pulseaudio</code> <code>pulseaudio-alsa</code></p>
-</div>
-<div class="paragraph">
-<p>Office: <code>libreoffice-still</code></p>
-</div>
-<div class="paragraph">
-<p>Others: <code>gimp</code> <code>inkscape</code></p>
-</div>
-<div class="paragraph">
-<p>File manager: <code>nnn</code> <code>thunar</code> <code>vifm</code> <code>ranger</code></p>
-</div>
-<div class="paragraph">
-<p>Pdf viewer: <code>zathura</code> <code>zathura-pdf-mupdf</code> <code>zathura-ps</code></p>
-</div>
-<div class="paragraph">
-<p>Markdown editor: <code>ghostwriter</code></p>
-</div>
-<div class="paragraph">
-<p>Image processing: <code>feh</code> <code>scrot</code> <code>picom</code></p>
-</div>
-<div class="paragraph">
-<p>Archive and compress: <code>zip</code> <code>unzip</code></p>
-</div>
-<div class="paragraph">
-<p>Utils: <code>udisks2</code> <code>pass</code> <code>xclip</code> <code>nodejs</code> <code>npm</code> <code>pandoc</code> <code>neofetch</code> <code>htop</code> <code>dmidecode</code> <code>wget</code> <code>ntfs-3g</code></p>
-</div>
-<div class="paragraph">
-<p>Fonts: <code>noto-fonts-emoji</code> <code>ttf-font-awesome</code> <code>adobe-source-code-pro-fonts</code> <code>otf-ipafont</code> <code>ttf-baekmuk</code></p>
-</div>
-<div class="paragraph">
-<p>Video player: <code>mpv</code> <code>vlc</code></p>
-</div>
-<div class="paragraph">
-<p>Music player: <code>cmus</code></p>
-</div>
-<div class="paragraph">
-<p>RSS: <code>newsboat</code></p>
-</div>
-<div class="paragraph">
-<p>Sreenrecorder: <code>simplescreenrecorder</code> <code>screekey</code></p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-11 16:46:26 +0700
+Last updated 2022-12-24 10:38:07 +0700
 </div>
 </div>
 </body>

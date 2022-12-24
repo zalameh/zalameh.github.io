@@ -1,0 +1,21 @@
+= PASS
+
+== Encrypt
+
+ $ gpg --full-generate-key
+ $ gpg --list-secret-keys --keyid-format=LONG
+ $ pass init <gpg_key or email>
+ $ pass generate [-n] <pass_name> [length]
+
+== Export & Import
+
+ $ gpg --export-secret-keys > <given_file_name>.gpg
+ $ gpg --import <gpgfile>.gpg
+
+== Re-Encrypt
+
+ $ gpg --full-generate-key
+ $ gpg --list-secret-keys --keyid-format=LONG
+ $ pass init <new_gpg_key>
+ $ gpg --delete-secret-and-public-keys <old_gpg_key>
+

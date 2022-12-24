@@ -4,9 +4,11 @@
 
 === Reset auto-increment ids in postgres
 
- ALTER SEQUENCE <table name>_<column name>_seq RESTART WITH <reset id>;
+----
+ALTER SEQUENCE <table name>_<column name>_seq RESTART WITH <reset id>;
 
- ALTER SEQUENCE product_id_seq RESTART WITH 1;
+ALTER SEQUENCE product_id_seq RESTART WITH 1;
+----
 
 === Alter password
 
