@@ -116,7 +116,9 @@ Packages to be installed must be downloaded from *mirror servers*, which are def
 
 === Install essential packages ===
 
- # pacstrap /mnt base linux linux-firmware nano vim man-db man-pages texinfo networkmanager
+ # pacstrap -K /mnt base linux linux-firmware nano vim man-db man-pages texinfo networkmanager
+
+install `ntfs-3g` if you have windows external drive.
 
 == Configure the system ==
 
