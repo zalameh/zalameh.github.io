@@ -450,6 +450,23 @@ h1, h2, h3 {
 </div>
 <div id="content">
 <div class="sect1">
+<h2 id="_script_example">Script Example</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre>version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "8000:5000"
+  redis:
+    image: "redis:alpine"</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_up">Up</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -482,7 +499,7 @@ h1, h2, h3 {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-01-09 09:01:50 +0700
+Last updated 2023-02-11 17:10:48 +0700
 </div>
 </div>
 </body>
