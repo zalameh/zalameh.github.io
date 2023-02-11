@@ -5,3 +5,7 @@
 https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture#ALSA_firmware[`Alsa Firmware`]
 
 `sof-firmware` and/or `alsa-ucm-conf` are required for some newer laptop models (mainly since 2019) because they implement their drivers with firmware provided by the Sound Open Firmware project.
+
+== Microphone
+
+https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture/Troubleshooting#Setting_the_default_microphone/capture_device[link]
