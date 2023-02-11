@@ -1,5 +1,11 @@
 = Asciidoc
 
+== Custom Stylesheet
+
+There are at least two ways to customize the default stylesheet. One way is to *add auxiliary styles using docinfo*. Another way is to *create a custom stylesheet*, but import the default stylesheet as a starting point.
+
+https://docs.asciidoctor.org/asciidoctor/latest/html-backend/default-stylesheet/#customize-the-default-stylesheet[link]
+
 == Links
 
 link:https://docs.asciidoctor.org/asciidoc/latest/macros/links/[link]
