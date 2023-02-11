@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Docker compose</title>
+<title>Arch Troubleshoot</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -446,60 +446,24 @@ h1, h2, h3 {
 </head>
 <body class="article">
 <div id="header">
-<h1>Docker compose</h1>
+<h1>Arch Troubleshoot</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_script_example">Script Example</h2>
-<div class="sectionbody">
-<div class="literalblock">
-<div class="content">
-<pre>version: "3.9"
-services:
-  web:
-    build: .
-    ports:
-      - "8000:5000"
-  redis:
-    image: "redis:alpine"</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_up">Up</h2>
+<h2 id="_alsafirmware"><code>alsafirmware</code></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Build an image and run a container at a time.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ docker-compose up</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_down">Down</h2>
-<div class="sectionbody">
-<div class="literalblock">
-<div class="content">
-<pre>$ docker-compose down --rmi all -v</pre>
-</div>
+<p><a href="https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture#ALSA_firmware"><code>Alsa Firmware</code></a></p>
 </div>
 <div class="paragraph">
-<p><code>--rmi</code>, Remove images used by services. "local" remove only images that don&#8217;t have a custom tag ("local"|"all")<br>
-<code>--volumes</code>, <code>-v</code>, Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers.</p>
-</div>
-<div class="paragraph">
-<p><a href="https://docs.docker.com/compose/compose-file/compose-versioning/" class="bare">https://docs.docker.com/compose/compose-file/compose-versioning/</a></p>
+<p><code>sof-firmware</code> and/or <code>alsa-ucm-conf</code> are required for some newer laptop models (mainly since 2019) because they implement their drivers with firmware provided by the Sound Open Firmware project.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-02-11 17:11:16 +0700
+Last updated 2023-02-11 17:19:25 +0700
 </div>
 </div>
 </body>

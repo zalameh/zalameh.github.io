@@ -1,0 +1,5 @@
+= Asciidoc
+
+== Links
+
+link:https://docs.asciidoctor.org/asciidoc/latest/macros/links/[link]
