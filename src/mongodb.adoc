@@ -1,0 +1,9 @@
+[note]
+====
+* To create a new database, use the `use` command: 
+* To list all the databases on the server, use the `show dbs` command:
+* To switch to an existing database, use the `use` command followed by the database name:
+* To drop (delete) a database, switch to the database and then use the `dropDatabase` command:
+* db.dropDatabase()
+====
+
